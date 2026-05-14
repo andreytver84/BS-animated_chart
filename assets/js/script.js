@@ -2,11 +2,8 @@ document.addEventListener("DOMContentLoaded", function() {
     const modules = document.querySelectorAll('.bs-animated-chart-container');
 
     modules.forEach(moduleWrapper => {
-        // Читаем настройки из атрибутов, которые заданы в админке
         const OBJECTS_COEF = parseInt(moduleWrapper.getAttribute('data-coef'), 10) || 10;
         const ANIM_DELAY   = parseInt(moduleWrapper.getAttribute('data-delay'), 10) || 0;
-        const SPEED_OBJ    = parseInt(moduleWrapper.getAttribute('data-speed-obj'), 10) || 1500;
-        const SPEED_MET    = parseInt(moduleWrapper.getAttribute('data-speed-met'), 10) || 1500;
 
         const objectBars = moduleWrapper.querySelectorAll('.promo__statistics-bar--objects');
         const meterBars  = moduleWrapper.querySelectorAll('.promo__statistics-bar--meters');
@@ -26,7 +23,6 @@ document.addEventListener("DOMContentLoaded", function() {
             if (adjustedVal > globalMax) globalMax = adjustedVal;
         });
 
-        // Функция анимации бегущих цифр
         const animateValue = (obj, start, end, duration, isMeters) => {
             let startTimestamp = null;
             const step = (timestamp) => {
@@ -48,7 +44,6 @@ document.addEventListener("DOMContentLoaded", function() {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     
-                    // Применяем задержку перед стартом всей анимации
                     setTimeout(() => {
                         
                         objectBars.forEach(bar => {
@@ -64,25 +59,21 @@ document.addEventListener("DOMContentLoaded", function() {
                             bar.style.height = Math.max(percent, 2) + '%';
                         });
 
-                        // Запускаем счетчики с индивидуальной скоростью
                         statNums.forEach(numDiv => {
                             let target = parseInt(numDiv.getAttribute('data-count'), 10) || 0;
+                            let duration = parseInt(numDiv.getAttribute('data-speed'), 10) || 1500;
                             let isMeters = numDiv.classList.contains('stat-meters');
-                            
-                            // Выбираем правильную скорость для текущего столбца
-                            let duration = isMeters ? SPEED_MET : SPEED_OBJ;
                             
                             animateValue(numDiv, 0, target, duration, isMeters);
                         });
 
-                    }, ANIM_DELAY); // Конец таймаута задержки
+                    }, ANIM_DELAY);
 
                     obs.unobserve(entry.target); 
                 }
             });
         }, { threshold: 0.3 });
 
-        // Важно: наблюдаем за всей оберткой (чтобы 30% считалось от нее)
         observer.observe(moduleWrapper);
     });
 });

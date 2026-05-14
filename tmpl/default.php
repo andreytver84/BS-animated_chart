@@ -2,21 +2,16 @@
 defined('_JEXEC') or die('Restricted access'); 
 use Joomla\CMS\Language\Text;
 
-// Безопасный эскейпинг цветов, полученных из параметров модуля (mod_bs_animated_chart.php)
+// Безопасный эскейпинг цветов
 $safe_color_objects = htmlspecialchars($color_objects, ENT_QUOTES, 'UTF-8');
 $safe_color_meters  = htmlspecialchars($color_meters, ENT_QUOTES, 'UTF-8');
 ?>
 
-<!-- Главный контейнер с передачей CSS-переменных и data-атрибутов для JS -->
 <div class="promo__slide-wrap bs-animated-chart-container" 
      style="--color-objects: <?php echo $safe_color_objects; ?>; 
-            --color-meters: <?php echo $safe_color_meters; ?>;
-            --speed-objects: <?php echo $anim_speed_objects; ?>ms;
-            --speed-meters: <?php echo $anim_speed_meters; ?>ms;"
+            --color-meters: <?php echo $safe_color_meters; ?>;"
      data-coef="<?php echo $objects_coef; ?>"
-     data-delay="<?php echo $anim_delay; ?>"
-     data-speed-obj="<?php echo $anim_speed_objects; ?>"
-     data-speed-met="<?php echo $anim_speed_meters; ?>">
+     data-delay="<?php echo $anim_delay; ?>">
     
     <div class="promo__slide-title">
         <?php echo htmlspecialchars($main_title, ENT_QUOTES, 'UTF-8'); ?>
@@ -36,25 +31,28 @@ $safe_color_meters  = htmlspecialchars($color_meters, ENT_QUOTES, 'UTF-8');
             
             <?php if (!empty($chart_data)): ?>
                 <?php foreach ($chart_data as $item): 
-                    $objects = (int) $item->objects;
-                    $meters  = (int) $item->meters;
-                    $year    = htmlspecialchars($item->year, ENT_QUOTES, 'UTF-8');
+                    $objects   = (int) $item->objects;
+                    $speed_obj = (int) ($item->speed_obj ?? 1500); 
+                    
+                    $meters    = (int) $item->meters;
+                    $speed_met = (int) ($item->speed_met ?? 1500);
+                    
+                    $year      = htmlspecialchars($item->year, ENT_QUOTES, 'UTF-8');
                 ?>
                     <div class="promo__statistics-group">
                         <div class="promo__statistics-columns">
                             
-                            <!-- Колонка: Объекты -->
+                            <!-- Объекты -->
                             <div class="promo__statistics-column">
-                                <div class="promo__statistics-value stat-num" data-count="<?php echo $objects; ?>">0</div>
-                                <div class="promo__statistics-bar promo__statistics-bar--objects" data-val="<?php echo $objects; ?>"></div>
+                                <div class="promo__statistics-value stat-num" data-count="<?php echo $objects; ?>" data-speed="<?php echo $speed_obj; ?>">0</div>
+                                <div class="promo__statistics-bar promo__statistics-bar--objects" data-val="<?php echo $objects; ?>" style="transition-duration: <?php echo $speed_obj; ?>ms;"></div>
                                 <div class="promo__statistics-label"><?php echo Text::_('MOD_BS_ANIMATED_CHART_FRONT_OBJECTS'); ?></div>
                             </div>
                             
-                            <!-- Колонка: Метры -->
+                            <!-- Метры -->
                             <div class="promo__statistics-column">
-                                <!-- Класс stat-meters сообщает JS скрипту, что сюда нужно подставить м² -->
-                                <div class="promo__statistics-area stat-num stat-meters" data-count="<?php echo $meters; ?>">0 <?php echo Text::_('MOD_BS_ANIMATED_CHART_FRONT_M2'); ?></div>
-                                <div class="promo__statistics-bar promo__statistics-bar--meters" data-val="<?php echo $meters; ?>"></div>
+                                <div class="promo__statistics-area stat-num stat-meters" data-count="<?php echo $meters; ?>" data-speed="<?php echo $speed_met; ?>">0 <?php echo Text::_('MOD_BS_ANIMATED_CHART_FRONT_M2'); ?></div>
+                                <div class="promo__statistics-bar promo__statistics-bar--meters" data-val="<?php echo $meters; ?>" style="transition-duration: <?php echo $speed_met; ?>ms;"></div>
                                 <div class="promo__statistics-label"><?php echo Text::_('MOD_BS_ANIMATED_CHART_FRONT_METERS'); ?></div>
                             </div>
 

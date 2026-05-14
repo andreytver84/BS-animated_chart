@@ -1,4 +1,3 @@
-/* Главный контейнер модуля */
 .bs-animated-chart-container {
     --color-objects: #004E82;
     --color-meters: #004E82;
@@ -16,7 +15,6 @@
     text-align: center;
 }
 
-/* Заголовки */
 .promo__slide-title {
     font-size: clamp(20px, 2.5vw, 28px);
     font-weight: bold;
@@ -44,88 +42,75 @@
     width: 100%;
 }
 
-/* --- КОНТЕЙНЕР С ФИКСИРОВАННЫМИ ПРОПОРЦИЯМИ --- */
 .promo__statistics-numbers {
     display: flex;
     justify-content: space-around;
     align-items: flex-end;
-    height: 380px; /* ВАЖНО: Фиксированная высота обертки, чтобы страница не прыгала */
+    height: 380px; 
     border-bottom: 2px solid var(--color-objects);
     padding-bottom: 20px;
 }
 
-/* Группа одного года */
 .promo__statistics-group {
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
-    height: 100%; /* Растягиваем на все 380px */
+    height: 100%; 
     flex: 1;
 }
 
-/* Блок синих колонок */
 .promo__statistics-columns {
     display: flex;
     gap: clamp(10px, 2vw, 20px);
     align-items: flex-end;
     justify-content: center;
-    height: 100%; /* Колонки занимают всё доступное место по высоте */
+    height: 100%; 
     margin-bottom: 15px;
 }
 
-/* Отдельная колонка (Цифра -> Столбец -> Подпись) */
 .promo__statistics-column {
     display: flex;
     flex-direction: column;
-    justify-content: flex-end; /* ВАЖНО: Прижимает всё к низу. Растущий столбец толкает цифру вверх */
+    justify-content: flex-end; 
     align-items: center;
     height: 100%; 
 }
 
-/* Бегущие цифры (катаются на столбцах) */
 .promo__statistics-value, 
 .promo__statistics-area {
     font-weight: bold;
     font-size: var(--font-size-value);
     white-space: nowrap;
-    margin-bottom: 8px; /* Отступ между цифрой и столбцом */
+    margin-bottom: 8px; 
 }
 
-/* Анимированный столбец */
 .promo__statistics-bar {
     width: var(--bar-width);
-    height: 0%;
-    /* Оставляем только настройки плавности, длительность зададим ниже */
+    height: 0%; 
     transition-property: height;
     transition-timing-function: cubic-bezier(0.1, 0.7, 0.1, 1);
 }
 
 .promo__statistics-bar--objects {
     background-color: var(--color-objects);
-    /* Берем скорость из переменной, по умолчанию 1500ms */
-    transition-duration: var(--speed-objects, 1500ms); 
 }
 
 .promo__statistics-bar--meters {
     background-color: var(--color-meters);
-    transition-duration: var(--speed-meters, 1500ms);
 }
 
-/* Подписи "объекты" и "метры" */
 .promo__statistics-label {
     font-size: var(--font-size-label);
     color: #666;
-    margin-top: 8px; /* Отступ от столбца вниз */
+    margin-top: 8px; 
 }
 
-/* Год под чертой */
 .promo__statistics-year {
     font-size: var(--font-size-year);
     font-weight: bold;
     margin-top: 10px;
 }
 
-/* Мобильная адаптация */
 @media (max-width: 768px) {
     .promo__statistics-numbers {
         justify-content: flex-start;
