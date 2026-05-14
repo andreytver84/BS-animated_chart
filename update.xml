@@ -6,7 +6,7 @@
         <element>mod_bs_animated_chart</element>
         <type>module</type>
         <client>0</client> 
-        <version>1.0.0</version>
+        <version>1.1.0</version>
         <infourl>https://github.com/andreytver84/BS-animated_chart/releases</infourl>
         <downloads>
             <downloadurl type="full" format="zip">https://github.com/andreytver84/BS-animated_chart/releases/download/v1.1.0/mod_bs_animated_chart_v1.1.0.zip</downloadurl>
