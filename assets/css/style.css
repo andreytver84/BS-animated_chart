@@ -1,4 +1,13 @@
-.promo__slide-wrap {
+/* Главный контейнер модуля */
+.bs-animated-chart-container {
+    --color-objects: #004E82;
+    --color-meters: #004E82;
+    
+    --bar-width: clamp(40px, 5vw, 75px);
+    --font-size-value: clamp(14px, 1.8vw, 20px);
+    --font-size-label: clamp(11px, 1.2vw, 15px);
+    --font-size-year: clamp(18px, 2.5vw, 28px);
+    
     font-family: Arial, sans-serif;
     color: #333;
     max-width: 1200px;
@@ -7,8 +16,9 @@
     text-align: center;
 }
 
+/* Заголовки */
 .promo__slide-title {
-    font-size: 24px;
+    font-size: clamp(20px, 2.5vw, 28px);
     font-weight: bold;
     margin-bottom: 20px;
     color: #000;
@@ -18,65 +28,108 @@
     display: block;
     font-weight: normal;
     color: #555;
-    margin-top: 5px;
+    margin-top: 10px;
+    font-size: clamp(16px, 2vw, 22px);
 }
 
 .promo__slide-desc {
-    font-size: 18px;
+    font-size: clamp(16px, 2vw, 18px);
     margin-bottom: 50px;
-    color: #004b87;
+    color: var(--color-objects); 
     text-transform: uppercase;
 }
 
+.promo__statistics {
+    position: relative;
+    width: 100%;
+}
+
+/* --- КОНТЕЙНЕР С ФИКСИРОВАННЫМИ ПРОПОРЦИЯМИ --- */
 .promo__statistics-numbers {
     display: flex;
     justify-content: space-around;
     align-items: flex-end;
-    border-bottom: 2px solid #004b87;
+    height: 380px; /* ВАЖНО: Фиксированная высота обертки, чтобы страница не прыгала */
+    border-bottom: 2px solid var(--color-objects);
     padding-bottom: 20px;
-    min-height: 300px;
 }
 
+/* Группа одного года */
 .promo__statistics-group {
     display: flex;
     flex-direction: column;
-    align-items: center;
+    justify-content: flex-end;
+    height: 100%; /* Растягиваем на все 380px */
+    flex: 1;
 }
 
+/* Блок синих колонок */
 .promo__statistics-columns {
     display: flex;
-    gap: 15px;
+    gap: clamp(10px, 2vw, 20px);
     align-items: flex-end;
+    justify-content: center;
+    height: 100%; /* Колонки занимают всё доступное место по высоте */
     margin-bottom: 15px;
 }
 
+/* Отдельная колонка (Цифра -> Столбец -> Подпись) */
 .promo__statistics-column {
     display: flex;
     flex-direction: column;
+    justify-content: flex-end; /* ВАЖНО: Прижимает всё к низу. Растущий столбец толкает цифру вверх */
     align-items: center;
-    justify-content: flex-end;
+    height: 100%; 
 }
 
-.promo__statistics-value, .promo__statistics-area {
+/* Бегущие цифры (катаются на столбцах) */
+.promo__statistics-value, 
+.promo__statistics-area {
     font-weight: bold;
-    margin-bottom: 5px;
-    font-size: 14px;
+    font-size: var(--font-size-value);
+    white-space: nowrap;
+    margin-bottom: 8px; /* Отступ между цифрой и столбцом */
 }
 
+/* Анимированный столбец */
 .promo__statistics-bar {
-    width: 40px;
-    background-color: #004b87;
-    height: 0px; /* Изначально 0 для анимации */
+    width: var(--bar-width);
+    height: 0%; /* Стартует с нуля, при росте толкает цифру вверх */
     transition: height 1.5s cubic-bezier(0.1, 0.7, 0.1, 1);
 }
 
-.promo__statistics-label {
-    font-size: 12px;
-    color: #666;
-    margin-top: 5px;
+.promo__statistics-bar--objects {
+    background-color: var(--color-objects);
 }
 
+.promo__statistics-bar--meters {
+    background-color: var(--color-meters);
+}
+
+/* Подписи "объекты" и "метры" */
+.promo__statistics-label {
+    font-size: var(--font-size-label);
+    color: #666;
+    margin-top: 8px; /* Отступ от столбца вниз */
+}
+
+/* Год под чертой */
 .promo__statistics-year {
-    font-size: 20px;
+    font-size: var(--font-size-year);
     font-weight: bold;
+    margin-top: 10px;
+}
+
+/* Мобильная адаптация */
+@media (max-width: 768px) {
+    .promo__statistics-numbers {
+        justify-content: flex-start;
+        overflow-x: auto; 
+        padding-bottom: 10px;
+    }
+    
+    .promo__statistics-group {
+        min-width: 200px; 
+        flex: 0 0 auto;
+    }
 }

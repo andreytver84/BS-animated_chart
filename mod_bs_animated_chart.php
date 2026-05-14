@@ -9,6 +9,8 @@ $main_title  = $params->get('main_title', '');
 $sub_title   = $params->get('sub_title', '');
 $description = $params->get('description', '');
 $chart_data  = $params->get('chart_data', []);
+$color_objects = $params->get('color_objects', '#004E82');
+$color_meters  = $params->get('color_meters', '#004E82');
 
 // Подключение CSS и JS через WebAssetManager (Стандарт Joomla 5)
 $wa = Factory::getApplication()->getDocument()->getWebAssetManager();

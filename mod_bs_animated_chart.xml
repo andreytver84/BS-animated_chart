@@ -43,12 +43,13 @@
                         <field name="meters" type="number" label="MOD_BS_ANIMATED_CHART_FIELD_METERS_LABEL" required="true" />
                     </form>
                 </field>
+                <field name="color_objects" type="color" label="MOD_BS_ANIMATED_CHART_FIELD_COLOR_OBJECTS_LABEL" default="#004E82" />
+                <field name="color_meters" type="color" label="MOD_BS_ANIMATED_CHART_FIELD_COLOR_METERS_LABEL" default="#004E82" />
             </fieldset>
         </fields>
     </config>
 
     <updateservers>
-        <!-- Замените ссылку на ваш реальный репозиторий/файл -->
         <server type="extension" priority="1" name="BS Animated Chart Update Server">https://raw.githubusercontent.com/andreytver84/BS-animated_chart/main/update.xml</server>
     </updateservers>
 </extension>

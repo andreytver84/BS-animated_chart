@@ -1,9 +1,15 @@
 <?php 
 defined('_JEXEC') or die('Restricted access'); 
 use Joomla\CMS\Language\Text;
+
+// Безопасный эскейпинг цветов, полученных из параметров модуля (mod_bs_animated_chart.php)
+$safe_color_objects = htmlspecialchars($color_objects, ENT_QUOTES, 'UTF-8');
+$safe_color_meters  = htmlspecialchars($color_meters, ENT_QUOTES, 'UTF-8');
 ?>
 
-<div class="promo__slide-wrap bs-animated-chart-container">
+<!-- Контейнер с передачей цветов в CSS-переменные -->
+<div class="promo__slide-wrap bs-animated-chart-container" style="--color-objects: <?php echo $safe_color_objects; ?>; --color-meters: <?php echo $safe_color_meters; ?>;">
+    
     <div class="promo__slide-title">
         <?php echo htmlspecialchars($main_title, ENT_QUOTES, 'UTF-8'); ?>
         <?php if (!empty($sub_title)): ?>
@@ -13,7 +19,7 @@ use Joomla\CMS\Language\Text;
     
     <?php if (!empty($description)): ?>
         <div class="promo__slide-desc">
-            <?php echo $description; // Описание уже отфильтровано как safehtml в XML ?>
+            <?php echo $description; ?>
         </div>
     <?php endif; ?>
 
@@ -22,7 +28,6 @@ use Joomla\CMS\Language\Text;
             
             <?php if (!empty($chart_data)): ?>
                 <?php foreach ($chart_data as $item): 
-                    // Строгая типизация для безопасности
                     $objects = (int) $item->objects;
                     $meters  = (int) $item->meters;
                     $year    = htmlspecialchars($item->year, ENT_QUOTES, 'UTF-8');
@@ -30,15 +35,16 @@ use Joomla\CMS\Language\Text;
                     <div class="promo__statistics-group">
                         <div class="promo__statistics-columns">
                             
-                            <!-- Объекты -->
+                            <!-- Колонка: Объекты -->
                             <div class="promo__statistics-column">
                                 <div class="promo__statistics-value stat-num" data-count="<?php echo $objects; ?>">0</div>
                                 <div class="promo__statistics-bar promo__statistics-bar--objects" data-val="<?php echo $objects; ?>"></div>
                                 <div class="promo__statistics-label"><?php echo Text::_('MOD_BS_ANIMATED_CHART_FRONT_OBJECTS'); ?></div>
                             </div>
                             
-                            <!-- Метры -->
+                            <!-- Колонка: Метры -->
                             <div class="promo__statistics-column">
+                                <!-- Класс stat-meters сообщает JS скрипту, что сюда нужно подставить м² -->
                                 <div class="promo__statistics-area stat-num stat-meters" data-count="<?php echo $meters; ?>">0 <?php echo Text::_('MOD_BS_ANIMATED_CHART_FRONT_M2'); ?></div>
                                 <div class="promo__statistics-bar promo__statistics-bar--meters" data-val="<?php echo $meters; ?>"></div>
                                 <div class="promo__statistics-label"><?php echo Text::_('MOD_BS_ANIMATED_CHART_FRONT_METERS'); ?></div>
