@@ -7,8 +7,16 @@ $safe_color_objects = htmlspecialchars($color_objects, ENT_QUOTES, 'UTF-8');
 $safe_color_meters  = htmlspecialchars($color_meters, ENT_QUOTES, 'UTF-8');
 ?>
 
-<!-- Контейнер с передачей цветов в CSS-переменные -->
-<div class="promo__slide-wrap bs-animated-chart-container" style="--color-objects: <?php echo $safe_color_objects; ?>; --color-meters: <?php echo $safe_color_meters; ?>;">
+<!-- Главный контейнер с передачей CSS-переменных и data-атрибутов для JS -->
+<div class="promo__slide-wrap bs-animated-chart-container" 
+     style="--color-objects: <?php echo $safe_color_objects; ?>; 
+            --color-meters: <?php echo $safe_color_meters; ?>;
+            --speed-objects: <?php echo $anim_speed_objects; ?>ms;
+            --speed-meters: <?php echo $anim_speed_meters; ?>ms;"
+     data-coef="<?php echo $objects_coef; ?>"
+     data-delay="<?php echo $anim_delay; ?>"
+     data-speed-obj="<?php echo $anim_speed_objects; ?>"
+     data-speed-met="<?php echo $anim_speed_meters; ?>">
     
     <div class="promo__slide-title">
         <?php echo htmlspecialchars($main_title, ENT_QUOTES, 'UTF-8'); ?>

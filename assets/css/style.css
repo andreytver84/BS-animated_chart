@@ -94,16 +94,21 @@
 /* Анимированный столбец */
 .promo__statistics-bar {
     width: var(--bar-width);
-    height: 0%; /* Стартует с нуля, при росте толкает цифру вверх */
-    transition: height 1.5s cubic-bezier(0.1, 0.7, 0.1, 1);
+    height: 0%;
+    /* Оставляем только настройки плавности, длительность зададим ниже */
+    transition-property: height;
+    transition-timing-function: cubic-bezier(0.1, 0.7, 0.1, 1);
 }
 
 .promo__statistics-bar--objects {
     background-color: var(--color-objects);
+    /* Берем скорость из переменной, по умолчанию 1500ms */
+    transition-duration: var(--speed-objects, 1500ms); 
 }
 
 .promo__statistics-bar--meters {
     background-color: var(--color-meters);
+    transition-duration: var(--speed-meters, 1500ms);
 }
 
 /* Подписи "объекты" и "метры" */

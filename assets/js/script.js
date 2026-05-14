@@ -1,32 +1,25 @@
 document.addEventListener("DOMContentLoaded", function() {
-    const modules = document.querySelectorAll('.bs-statistics-module');
+    const modules = document.querySelectorAll('.bs-animated-chart-container');
 
-    modules.forEach(module => {
-        const objectBars = module.querySelectorAll('.promo__statistics-bar--objects');
-        const meterBars = module.querySelectorAll('.promo__statistics-bar--meters');
-        const statNums = module.querySelectorAll('.stat-num');
+    modules.forEach(moduleWrapper => {
+        // Читаем настройки из атрибутов, которые заданы в админке
+        const OBJECTS_COEF = parseInt(moduleWrapper.getAttribute('data-coef'), 10) || 10;
+        const ANIM_DELAY   = parseInt(moduleWrapper.getAttribute('data-delay'), 10) || 0;
+        const SPEED_OBJ    = parseInt(moduleWrapper.getAttribute('data-speed-obj'), 10) || 1500;
+        const SPEED_MET    = parseInt(moduleWrapper.getAttribute('data-speed-met'), 10) || 1500;
 
-        // --- НАСТРОЙКИ ГРАФИКА ---
-        
-        // 1. Максимальная высота самого большого столбца в контейнере (80%, чтобы сверху влезли цифры)
+        const objectBars = moduleWrapper.querySelectorAll('.promo__statistics-bar--objects');
+        const meterBars  = moduleWrapper.querySelectorAll('.promo__statistics-bar--meters');
+        const statNums   = moduleWrapper.querySelectorAll('.stat-num');
+
         const MAX_PERCENT = 80; 
-
-        // 2. ВИЗУАЛЬНЫЙ КОЭФФИЦИЕНТ ДЛЯ ОБЪЕКТОВ
-        // Увеличивает высоту столбцов "объекты". 
-        // Для ваших значений (максимум ~865 объектов и ~54880 метров) 
-        // значение около 25-30 сделает столбцы объектов заметными, но они будут ниже метров.
-        const OBJECTS_COEF = 10; 
-
         let globalMax = 0;
 
-        // Ищем абсолютный максимум среди "метров", так как они задают основной масштаб
         meterBars.forEach(bar => {
             let val = parseInt(bar.getAttribute('data-val'), 10) || 0;
             if (val > globalMax) globalMax = val;
         });
 
-        // На всякий случай проверяем: если вы поставите очень большой коэффициент, 
-        // виртуальные объекты могут обогнать метры. Если это произошло, расширяем шкалу под них.
         objectBars.forEach(bar => {
             let val = parseInt(bar.getAttribute('data-val'), 10) || 0;
             let adjustedVal = val * OBJECTS_COEF;
@@ -51,40 +44,45 @@ document.addEventListener("DOMContentLoaded", function() {
             window.requestAnimationFrame(step);
         };
 
-        // Запуск анимации при появлении графика на экране
         const observer = new IntersectionObserver((entries, obs) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     
-                    // Расчет высоты для ОБЪЕКТОВ (умножаем на наш коэффициент)
-                    objectBars.forEach(bar => {
-                        let val = parseInt(bar.getAttribute('data-val'), 10) || 0;
-                        let adjustedVal = val * OBJECTS_COEF;
+                    // Применяем задержку перед стартом всей анимации
+                    setTimeout(() => {
                         
-                        let percent = globalMax > 0 ? (adjustedVal / globalMax) * MAX_PERCENT : 0;
-                        bar.style.height = Math.max(percent, 2) + '%'; 
-                    });
+                        objectBars.forEach(bar => {
+                            let val = parseInt(bar.getAttribute('data-val'), 10) || 0;
+                            let adjustedVal = val * OBJECTS_COEF;
+                            let percent = globalMax > 0 ? (adjustedVal / globalMax) * MAX_PERCENT : 0;
+                            bar.style.height = Math.max(percent, 2) + '%'; 
+                        });
 
-                    // Расчет высоты для МЕТРОВ (считаем по честным значениям)
-                    meterBars.forEach(bar => {
-                        let val = parseInt(bar.getAttribute('data-val'), 10) || 0;
-                        
-                        let percent = globalMax > 0 ? (val / globalMax) * MAX_PERCENT : 0;
-                        bar.style.height = Math.max(percent, 2) + '%';
-                    });
+                        meterBars.forEach(bar => {
+                            let val = parseInt(bar.getAttribute('data-val'), 10) || 0;
+                            let percent = globalMax > 0 ? (val / globalMax) * MAX_PERCENT : 0;
+                            bar.style.height = Math.max(percent, 2) + '%';
+                        });
 
-                    // Запускаем счетчик
-                    statNums.forEach(numDiv => {
-                        let target = parseInt(numDiv.getAttribute('data-count'), 10) || 0;
-                        let isMeters = numDiv.classList.contains('stat-meters');
-                        animateValue(numDiv, 0, target, 1500, isMeters);
-                    });
+                        // Запускаем счетчики с индивидуальной скоростью
+                        statNums.forEach(numDiv => {
+                            let target = parseInt(numDiv.getAttribute('data-count'), 10) || 0;
+                            let isMeters = numDiv.classList.contains('stat-meters');
+                            
+                            // Выбираем правильную скорость для текущего столбца
+                            let duration = isMeters ? SPEED_MET : SPEED_OBJ;
+                            
+                            animateValue(numDiv, 0, target, duration, isMeters);
+                        });
+
+                    }, ANIM_DELAY); // Конец таймаута задержки
 
                     obs.unobserve(entry.target); 
                 }
             });
         }, { threshold: 0.3 });
 
-        observer.observe(module);
+        // Важно: наблюдаем за всей оберткой (чтобы 30% считалось от нее)
+        observer.observe(moduleWrapper);
     });
 });
