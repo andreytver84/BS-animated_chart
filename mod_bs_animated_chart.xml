@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="module" client="site" method="upgrade">
+    <name>mod_bs_animated_chart</name>
+    <author>Andrey Uvikov</author>
+    <authorEmail>order@bestsite-studio.ru</authorEmail>
+    <authorUrl>https://bestsite-tver.ru</authorUrl>
+    <creationDate>2026</creationDate>
+    <version>1.0.0</version>
+    <description><![CDATA[
+        <div style="background: #f4f7f9; padding: 20px; border-left: 5px solid #004E82; border-radius: 4px; font-family: sans-serif; margin-bottom: 20px;">
+            <h2 style="margin-top: 0; color: #004E82;">BS Animated Chart — Инструкция</h2>
+            <p>Модуль вывода анимированного графика статистики (годы, объекты, метры).</p>
+            <h3 style="color: #333; border-bottom: 1px solid #ccc; padding-bottom: 5px; margin-top: 20px;">Как использовать</h3>
+            <ul style="margin-bottom: 15px;">
+                <li>Заполните главные заголовки и описание.</li>
+                <li>В поле <b>"Данные графика"</b> добавьте нужное количество колонок с годами и значениями.</li>
+                <li>Опубликуйте модуль в нужной позиции вашего шаблона.</li>
+            </ul>
+        </div>
+    ]]></description>
+
+    <files>
+        <filename module="mod_bs_animated_chart">mod_bs_animated_chart.php</filename>
+        <folder>tmpl</folder>
+        <folder>language</folder>
+        <folder>assets</folder>
+    </files>
+
+    <config>
+        <fields name="params">
+            <fieldset name="basic" label="MOD_BS_ANIMATED_CHART_FIELDSET_BASIC_LABEL">
+                <field name="main_title" type="text" label="MOD_BS_ANIMATED_CHART_FIELD_MAIN_TITLE_LABEL" default="MOD_BS_ANIMATED_CHART_DEFAULT_MAIN_TITLE" translate_default="true" />
+                <field name="sub_title" type="text" label="MOD_BS_ANIMATED_CHART_FIELD_SUB_TITLE_LABEL" default="MOD_BS_ANIMATED_CHART_DEFAULT_SUB_TITLE" translate_default="true" />
+                
+                <!-- filter="safehtml" защищает от XSS (вырезает опасные теги) -->
+                <field name="description" type="editor" label="MOD_BS_ANIMATED_CHART_FIELD_DESC_LABEL" filter="safehtml" />
+                
+                <field name="chart_data" type="subform" label="MOD_BS_ANIMATED_CHART_FIELD_DATA_LABEL" description="MOD_BS_ANIMATED_CHART_FIELD_DATA_DESC" multiple="true" min="1" layout="joomla.form.field.subform.repeatable-table">
+                    <form>
+                        <!-- type="number" и type="text" для базовой валидации -->
+                        <field name="year" type="text" label="MOD_BS_ANIMATED_CHART_FIELD_YEAR_LABEL" required="true" />
+                        <field name="objects" type="number" label="MOD_BS_ANIMATED_CHART_FIELD_OBJECTS_LABEL" required="true" />
+                        <field name="meters" type="number" label="MOD_BS_ANIMATED_CHART_FIELD_METERS_LABEL" required="true" />
+                    </form>
+                </field>
+            </fieldset>
+        </fields>
+    </config>
+
+    <updateservers>
+        <!-- Замените ссылку на ваш реальный репозиторий/файл -->
+        <server type="extension" priority="1" name="BS Animated Chart Update Server">https://raw.githubusercontent.com/andreytver84/BS-animated_chart/main/update.xml</server>
+    </updateservers>
+</extension>

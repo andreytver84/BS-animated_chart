@@ -1,0 +1,82 @@
+.promo__slide-wrap {
+    font-family: Arial, sans-serif;
+    color: #333;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 20px;
+    text-align: center;
+}
+
+.promo__slide-title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: #000;
+}
+
+.promo__slide-title span {
+    display: block;
+    font-weight: normal;
+    color: #555;
+    margin-top: 5px;
+}
+
+.promo__slide-desc {
+    font-size: 18px;
+    margin-bottom: 50px;
+    color: #004b87;
+    text-transform: uppercase;
+}
+
+.promo__statistics-numbers {
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-end;
+    border-bottom: 2px solid #004b87;
+    padding-bottom: 20px;
+    min-height: 300px;
+}
+
+.promo__statistics-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.promo__statistics-columns {
+    display: flex;
+    gap: 15px;
+    align-items: flex-end;
+    margin-bottom: 15px;
+}
+
+.promo__statistics-column {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.promo__statistics-value, .promo__statistics-area {
+    font-weight: bold;
+    margin-bottom: 5px;
+    font-size: 14px;
+}
+
+.promo__statistics-bar {
+    width: 40px;
+    background-color: #004b87;
+    height: 0px; /* Изначально 0 для анимации */
+    transition: height 1.5s cubic-bezier(0.1, 0.7, 0.1, 1);
+}
+
+.promo__statistics-label {
+    font-size: 12px;
+    color: #666;
+    margin-top: 5px;
+}
+
+.promo__statistics-year {
+    font-size: 20px;
+    font-weight: bold;
+}
